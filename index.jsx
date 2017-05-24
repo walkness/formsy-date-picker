@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { default as BaseDatePicker } from 'react-datepicker';
 import moment from 'moment';
 
-import InputWrapper from '../Forms/InputWrapper';
+import InputWrapper from 'Components/Forms/InputWrapper';
 
 
 class DatePicker extends Component {
