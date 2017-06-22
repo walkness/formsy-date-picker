@@ -2,10 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import BaseDatePicker from 'react-datepicker';
 import moment from 'moment';
+import { autobind } from 'core-decorators';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
 import InputWrapper from 'AppComponents/Forms/InputWrapper';
+import FormGroup from 'AppComponents/Forms/FormGroup';
 
 
 class DatePicker extends Component {
@@ -38,11 +40,7 @@ class DatePicker extends Component {
     value: null,
   };
 
-  constructor(props, context) {
-    super(props, context);
-    this.changeValue = this.changeValue.bind(this);
-  }
-
+  @autobind
   changeValue(date) {
     const { formsy, onChange } = this.props;
     const { setValue } = formsy;
@@ -56,7 +54,7 @@ class DatePicker extends Component {
   render() {
     const {
       value, label, placeholder, className, datePickerProps, dateFormat,
-      renderFeedback, ...inputOpts
+      renderFeedback, onChange, selected, ...inputOpts
     } = this.props;
 
     return (
@@ -64,7 +62,7 @@ class DatePicker extends Component {
 
         <BaseDatePicker
           className={classNames('form-control', className)}
-          selected={value && moment(value)}
+          selected={selected || (value && moment(value))}
           onChange={this.changeValue}
           placeholderText={placeholder || label}
           {...inputOpts}
@@ -78,4 +76,4 @@ class DatePicker extends Component {
   }
 }
 
-export default InputWrapper(DatePicker);
+export default InputWrapper(DatePicker, FormGroup);
