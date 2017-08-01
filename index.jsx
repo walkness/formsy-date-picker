@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import BaseDatePicker from 'react-datepicker';
+import { isDayDisabled } from 'react-datepicker/lib/date_utils';
 import moment from 'moment';
 import { autobind } from 'core-decorators';
 
@@ -9,6 +10,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import InputWrapper from 'AppComponents/Forms/InputWrapper';
 import FormGroup from 'AppComponents/Forms/FormGroup';
+
+export const dateFormats = [
+  'MM-DD-YYYY',
+  'MM-DD-YY',
+  'M-D-YYYY',
+  'M-D-YY',
+  'MMMM D, YYYY',
+  'YYYY-MM-DD',
+];
 
 
 class DatePicker extends Component {
@@ -34,7 +44,7 @@ class DatePicker extends Component {
     datePickerProps: {},
     formsy: null,
     label: null,
-    onChange: () => {},
+    onChange: null,
     placeholder: null,
     renderFeedback: null,
     selected: null,
@@ -42,29 +52,51 @@ class DatePicker extends Component {
   };
 
   @autobind
-  changeValue(date) {
+  changeValue(value) {
     const { formsy, onChange } = this.props;
     const { setValue } = formsy;
     if (setValue || onChange) {
-      const formatted = date && date.format(this.props.dateFormat);
-      if (setValue) setValue(formatted || '');
-      if (onChange) onChange(formatted);
+      if (setValue) setValue(value || '');
+      if (onChange) onChange(value);
+    }
+  }
+
+  @autobind
+  handleDateChange(date) {
+    this.changeValue(date && date.format(this.props.dateFormat));
+  }
+
+  @autobind
+  handleRawChange(e) {
+    const value = e.target.value;
+    const date = moment(value, dateFormats);
+    if (date.isValid() && !isDayDisabled(date, this.props.datePickerProps)) {
+      this.changeValue(date.format(this.props.dateFormat));
+    } else {
+      this.changeValue(value);
     }
   }
 
   render() {
     const {
-      value, label, placeholder, className, datePickerProps, dateFormat,
-      renderFeedback, onChange, selected, ...inputOpts
+      value: originalValue, label, placeholder, className, datePickerProps, dateFormat,
+      renderFeedback, onChange, selected, formsy, ...inputOpts
     } = this.props;
+
+    const date = originalValue && moment(originalValue, dateFormats);
+    let value = date;
+    if (date && !date.isValid()) {
+      value = null;
+    }
 
     return (
       <div>
 
         <BaseDatePicker
           className={classNames('form-control', className)}
-          selected={selected || (value && moment(value))}
-          onChange={this.changeValue}
+          selected={selected || value}
+          onChange={this.handleDateChange}
+          onChangeRaw={this.handleRawChange}
           placeholderText={placeholder || label}
           {...inputOpts}
           {...datePickerProps}
