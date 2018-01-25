@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import BaseDatePicker from 'react-datepicker';
-import { isDayDisabled } from 'react-datepicker/lib/date_utils';
 import moment from 'moment';
 import { autobind } from 'core-decorators';
 
@@ -70,7 +69,7 @@ class DatePicker extends Component {
   handleRawChange(e) {
     const value = e.target.value;
     const date = moment(value, dateFormats);
-    if (date.isValid() && !isDayDisabled(date, this.props.datePickerProps)) {
+    if (date.isValid()) {
       this.changeValue(date.format(this.props.dateFormat));
     } else {
       this.changeValue(value);
