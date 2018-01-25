@@ -1,5 +1,5 @@
-import { HOC } from 'formsy-react';
+import { withFormsy } from 'formsy-react';
 
 import DatePicker from './index';
 
-export default HOC(DatePicker);
+export default withFormsy(DatePicker);
