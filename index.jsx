@@ -7,8 +7,8 @@ import { autobind } from 'core-decorators';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-import InputWrapper from 'AppComponents/Forms/InputWrapper';
-import FormGroup from 'AppComponents/Forms/FormGroup';
+import InputWrapper from 'react-formsy-bootstrap-components/InputWrapper';
+import FormGroup from 'react-formsy-bootstrap-components/FormGroup';
 
 export const dateFormats = [
   'MM-DD-YYYY',
