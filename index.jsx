@@ -44,7 +44,7 @@ class DatePicker extends Component {
     formsy: null,
     label: null,
     onChange: null,
-    placeholder: null,
+    placeholder: undefined,
     renderFeedback: null,
     selected: null,
     value: null,
@@ -96,7 +96,7 @@ class DatePicker extends Component {
           selected={selected || value}
           onChange={this.handleDateChange}
           onChangeRaw={this.handleRawChange}
-          placeholderText={placeholder || label}
+          placeholderText={placeholder === undefined ? label : placeholder}
           {...inputOpts}
           {...datePickerProps}
         />
