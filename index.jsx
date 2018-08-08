@@ -5,7 +5,7 @@ import BaseDatePicker from 'react-datepicker';
 import moment from 'moment';
 import { autobind } from 'core-decorators';
 
-import 'react-datepicker/dist/react-datepicker.css';
+// import 'react-datepicker/dist/react-datepicker.css';
 
 import InputWrapper from 'react-formsy-bootstrap-components/InputWrapper';
 import FormGroup from 'react-formsy-bootstrap-components/FormGroup';
